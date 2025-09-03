@@ -349,5 +349,5 @@ X_kpca_sk = kpca.fit_transform(X)
 - When might standard PCA fail? Provide an example.
 
 - How does KPCA address the issue of nonlinearity in data?
-5. Push your code and the readme document to Github and submit the link
+6. Push your code and the readme document to Github and submit the link
 
