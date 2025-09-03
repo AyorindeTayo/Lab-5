@@ -329,20 +329,8 @@ X_kpca_sk = kpca.fit_transform(X)
 
 ```
 
-**Task:** 
-- Use SelectFromModel with threshold=0.1. Train a model on selected features.
-- Compare top features from RF and SBS.
 
-## Conclusion
-Summarize what you learned. Experiment with a different dataset (e.g., Iris) and apply these techniques. Discuss how preprocessing affects model performance.
 
-**Questions:**
-1. Why is handling missing data important?
-2. When should you use one-hot encoding vs. label encoding?
-3. How does feature scaling impact algorithms like KNN or SVM?
-4. Compare L1 regularization and SBS for feature selection.
-
-5. Push your code and the readme document to Github and submit the link
 
 
 
@@ -361,4 +349,5 @@ Summarize what you learned. Experiment with a different dataset (e.g., Iris) and
 - When might standard PCA fail? Provide an example.
 
 - How does KPCA address the issue of nonlinearity in data?
+5. Push your code and the readme document to Github and submit the link
 
