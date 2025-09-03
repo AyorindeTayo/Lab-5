@@ -328,3 +328,37 @@ kpca = KernelPCA(n_components=2, kernel='rbf', gamma=15)
 X_kpca_sk = kpca.fit_transform(X)
 
 ```
+
+**Task:** 
+- Use SelectFromModel with threshold=0.1. Train a model on selected features.
+- Compare top features from RF and SBS.
+
+## Conclusion
+Summarize what you learned. Experiment with a different dataset (e.g., Iris) and apply these techniques. Discuss how preprocessing affects model performance.
+
+**Questions:**
+1. Why is handling missing data important?
+2. When should you use one-hot encoding vs. label encoding?
+3. How does feature scaling impact algorithms like KNN or SVM?
+4. Compare L1 regularization and SBS for feature selection.
+
+5. Push your code and the readme document to Github and submit the link
+
+
+
+
+**Analysis Questions** 
+1. Explained Variance: How does the explained variance change with the number of components in PCA? How many components are needed to explain, e.g., 95% of the variance?
+
+2. PCA vs. LDA: Compare the PCA and LDA projections of the Wine dataset. Why does LDA typically perform better for classification tasks when used as a preprocessing step?
+
+3. KPCA Gamma Parameter: Experiment with different γ (gamma) values in KPCA on the half-moon dataset. What happens if γ is too small (e.g., 0.01) or too large (e.g., 100)? How does it affect the transformed data and the linear separability of the classes?
+
+4. Classifier Performance: Apply a classifier (e.g., SVM or Logistic Regression) to the original data, the PCA-transformed data, and the LDA-transformed Wine data. Measure and compare the accuracy and computation time. What do you observe?
+
+5. Limitations:
+
+- When might standard PCA fail? Provide an example.
+
+- How does KPCA address the issue of nonlinearity in data?
+
