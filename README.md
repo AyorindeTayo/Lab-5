@@ -89,3 +89,80 @@ w = np.hstack((eigen_pairs[0][1][:, np.newaxis],
 # Transform training data
 X_train_pca = X_train_std.dot(w)
 ```
+### Step 1.3: Visualize Explained Variance
+```python
+import matplotlib.pyplot as plt
+
+# Calculate explained variance ratios
+tot = sum(eigen_vals)
+var_exp = [(i / tot) for i in sorted(eigen_vals, reverse=True)]
+cum_var_exp = np.cumsum(var_exp)
+
+# Plot
+plt.bar(range(1, len(var_exp) + 1), var_exp, alpha=0.5, align='center',
+        label='Individual explained variance')
+plt.step(range(1, len(cum_var_exp) + 1), cum_var_exp, where='mid',
+         label='Cumulative explained variance')
+plt.ylabel('Explained variance ratio')
+plt.xlabel('Principal components')
+plt.legend(loc='best')
+plt.tight_layout()
+plt.show()
+```
+
+### Step 1.4: PCA with scikit-learn
+```python
+from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2)
+X_train_pca_sk = pca.fit_transform(X_train_std)
+X_test_pca_sk = pca.transform(X_test_std)
+```
+
+### Step 1.5: Classification and Visualization
+Use Logistic Regression on reduced data and visualize the decision regions.
+```python
+from sklearn.linear_model import LogisticRegression
+
+lr = LogisticRegression(multi_class='ovr', random_state=1, solver='lbfgs')
+lr.fit(X_train_pca_sk, y_train)
+
+# Helper function to plot decision regions (from the book)
+from matplotlib.colors import ListedColormap
+def plot_decision_regions(X, y, classifier, resolution=0.02):
+    # setup marker generator and color map
+    markers = ('s', 'x', 'o', '^', 'v')
+    colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
+    cmap = ListedColormap(colors[:len(np.unique(y))])
+    # plot the decision surface
+    x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx1, xx2 = np.meshgrid(np.arange(x1_min, x1_max, resolution),
+                           np.arange(x2_min, x2_max, resolution))
+    Z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
+    Z = Z.reshape(xx1.shape)
+    plt.contourf(xx1, xx2, Z, alpha=0.4, cmap=cmap)
+    plt.xlim(xx1.min(), xx1.max())
+    plt.ylim(xx2.min(), xx2.max())
+    # plot class samples
+    for idx, cl in enumerate(np.unique(y)):
+        plt.scatter(x=X[y == cl, 0], 
+                    y=X[y == cl, 1],
+                    alpha=0.6, 
+                    c=cmap(idx),
+                    edgecolor='black',
+                    marker=markers[idx], 
+                    label=cl)
+    plt.xlabel('PC 1')
+    plt.ylabel('PC 2')
+    plt.legend(loc='best')
+
+# Plot decision regions for training set
+plot_decision_regions(X_train_pca_sk, y_train, classifier=lr)
+plt.title('Logistic Regression on PCA-transformed Data (Training)')
+plt.show()
+
+# Check accuracy on test set
+print('Test Accuracy: %.3f' % lr.score(X_test_pca_sk, y_test))
+```
+## Part 2: Linear Discriminant Analysis (LDA)
