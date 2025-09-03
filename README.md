@@ -64,3 +64,28 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, stratif
 sc = StandardScaler()
 X_train_std = sc.fit_transform(X_train)
 X_test_std = sc.transform(X_test)
+
+```
+### Step 1.2: Implement PCA from Scratch
+Compute covariance matrix, eigenvalues, and eigenvectors.
+
+```python
+import numpy as np
+
+# Compute covariance matrix
+cov_mat = np.cov(X_train_std.T)
+
+# Perform eigendecomposition
+eigen_vals, eigen_vecs = np.linalg.eig(cov_mat)
+
+# Sort eigenvalues in descending order
+eigen_pairs = [(np.abs(eigen_vals[i]), eigen_vecs[:, i]) for i in range(len(eigen_vals))]
+eigen_pairs.sort(key=lambda k: k[0], reverse=True)
+
+# Create projection matrix (top 2 components)
+w = np.hstack((eigen_pairs[0][1][:, np.newaxis],
+               eigen_pairs[1][1][:, np.newaxis]))
+
+# Transform training data
+X_train_pca = X_train_std.dot(w)
+```python
