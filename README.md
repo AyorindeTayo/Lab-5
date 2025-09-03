@@ -88,4 +88,4 @@ w = np.hstack((eigen_pairs[0][1][:, np.newaxis],
 
 # Transform training data
 X_train_pca = X_train_std.dot(w)
-```python
+```
